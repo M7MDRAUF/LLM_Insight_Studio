@@ -1,0 +1,24 @@
+# Pinned runtime requirements for the API service.
+# Source of truth for versions remains pyproject.toml; this file mirrors it
+# with concrete bounds for reproducible Docker / CI builds.
+fastapi>=0.110,<1.0
+uvicorn[standard]>=0.27,<1.0
+pydantic>=2.6,<3.0
+pydantic-settings>=2.2,<3.0
+sqlmodel>=0.0.16,<0.1
+httpx>=0.27,<1.0
+orjson>=3.9,<4.0
+python-multipart>=0.0.9,<1.0
+anyio>=4.3,<5.0
+pyyaml>=6.0,<7.0
+
+# Optional ML stack (install via `pip install -e .[ml]`)
+# transformers>=5.0
+# datasets>=2.18
+# evaluate>=0.4
+# huggingface_hub>=0.22
+# rouge-score>=0.1.2
+# scikit-learn>=1.4
+# numpy>=1.26
+# pandas>=2.2
+# openpyxl>=3.1

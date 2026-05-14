@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.env
+.env.local
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+.tox/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+.turbo/
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+docx/
+professor_submission/
+reports/
+professor_submission.rar
+TP01.md
+TP02.md
+TP03.md
+tools/
+.playwright-mcp/
+# Artifacts & local state
+artifacts/studio.db
+artifacts/studio.db-*
+artifacts/experiments/*
+artifacts/reports/*
+artifacts/charts/*
+!artifacts/.gitkeep
+!artifacts/experiments/.gitkeep
+!artifacts/reports/.gitkeep
+!artifacts/charts/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Private docs
+docs/TEAMS_MESSAGE.md

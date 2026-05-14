@@ -1,0 +1,178 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llm-insight-studio"
+version = "0.1.0"
+description = "LLM Insight Studio — research-grade NLP comparison platform."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "LLM Insight Studio Team" }]
+dependencies = [
+    "fastapi>=0.110",
+    "uvicorn[standard]>=0.27",
+    "pydantic>=2.6",
+    "pydantic-settings>=2.2",
+    "sqlmodel>=0.0.16",
+    "httpx>=0.27",
+    "orjson>=3.9",
+    "python-multipart>=0.0.9",
+    "anyio>=4.3",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+ml = [
+    "transformers>=5.0",
+    "datasets>=2.18",
+    "evaluate>=0.4",
+    "huggingface_hub>=0.22",
+    "rouge-score>=0.1.2",
+    "scikit-learn>=1.4",
+    "numpy>=1.26",
+    "pandas>=2.2",
+    "openpyxl>=3.1",
+]
+agent = [
+    # Reserved for future smolagents-based runtime tools (currently the
+    # research agent ships a deterministic in-process implementation that
+    # does not import smolagents).
+]
+dev = [
+    "ruff>=0.4.0",
+    "mypy>=1.10",
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+    "pytest-cov>=5.0",
+    "coverage>=7.4",
+    "bandit>=1.7",
+    "pip-audit>=2.7",
+    "vulture>=2.11",
+    "types-requests",
+    "types-PyYAML",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["apps*", "services*"]
+exclude = ["tests*", "apps.web*", "artifacts*", "docs*", ".github*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = [
+    "apps/web",
+    "artifacts",
+    ".venv",
+    "node_modules",
+    "build",
+    "dist",
+    "docx",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # bugbear
+    "UP",  # pyupgrade
+    "N",   # pep8-naming
+    "SIM", # simplify
+    "RUF", # ruff-specific
+    "C4",  # comprehensions
+    "PL",  # pylint subset
+    "TID", # tidy imports
+]
+ignore = [
+    "PLR0913", # many args ok for service funcs
+    "PLR2004", # magic value in tests
+    "B008",    # FastAPI Depends default
+    "N999",    # workspace root folder name is outside our control
+    "PLC0415", # deliberate lazy imports for heavy optional deps and cycle avoidance
+    "E741",    # `l` used for lane/limitation iteration variables
+    "E501",    # long lines in curated reference strings accepted
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["PLR2004", "S101", "N802"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+disallow_any_generics = true
+ignore_missing_imports = true
+explicit_package_bases = true
+mypy_path = "."
+namespace_packages = true
+exclude = [
+    "apps/web",
+    "artifacts",
+    "build",
+    "dist",
+    ".venv",
+    "node_modules",
+]
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = [
+    "transformers.*",
+    "datasets.*",
+    "evaluate.*",
+    "huggingface_hub.*",
+    "smolagents.*",
+    "rouge_score.*",
+    "sklearn.*",
+    "pandas.*",
+]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["tests.*"]
+disallow_untyped_defs = false
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = "-ra --strict-markers --strict-config"
+filterwarnings = [
+    "ignore::DeprecationWarning",
+]
+markers = [
+    "slow: heavy tests (model downloads etc.)",
+    "ml: tests requiring optional ml extras",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["apps", "services"]
+omit = ["tests/*", "apps/web/*"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+exclude_lines = [
+    "pragma: no cover",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+]
+
+[tool.bandit]
+exclude_dirs = ["tests", "apps/web", "artifacts", ".venv", "node_modules"]
+skips = ["B101"]
+
+[tool.vulture]
+min_confidence = 80
+paths = ["apps", "services"]
+exclude = ["tests/", "apps/web/"]

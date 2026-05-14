@@ -1,0 +1,9 @@
+{
+  "pythonVersion": "3.11",
+  "venvPath": ".",
+  "venv": ".venv",
+  "include": ["apps", "services", "tests"],
+  "exclude": ["apps/web", "artifacts", ".venv", "node_modules", "build", "dist"],
+  "reportMissingModuleSource": "none",
+  "reportMissingImports": "warning"
+}
