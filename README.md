@@ -1,6 +1,6 @@
 # LLM Insight Studio
 
-> **Research-grade NLP model comparison platform** — upload datasets, run multi-task evaluations across Hugging Face models, compare results side-by-side, and generate AI-written research reports with provenance.
+> **NLP model comparison platform** — upload datasets, run multi-task evaluations across Hugging Face models, compare results side-by-side, and generate templated markdown research reports with provenance references.
 
 **Repo:** https://github.com/M7MDRAUF/LLM_Insight_Studio
 
@@ -52,7 +52,7 @@ ai520_WA/
 │   ├── api/          # FastAPI backend (Python 3.11+)
 │   └── web/          # Next.js 14 App Router frontend (TypeScript)
 ├── services/         # Business logic layer
-│   ├── agent/        # AI research report writer (smolagents)
+│   ├── agent/        # Deterministic markdown report writer (no LLM call)
 │   ├── artifacts/    # JSON / Markdown I/O
 │   ├── data/         # Dataset ingestion (CSV/JSON upload + HF loader)
 │   ├── evaluation/   # Classification, QA, Summarisation, Instruct metrics
@@ -78,7 +78,7 @@ ai520_WA/
 | Background job runner with heartbeat watchdog      | ✅                                                |
 | Experiment cancellation                            | ✅                                                |
 | Side-by-side metric comparison table               | ✅                                                |
-| AI research report generation                      | ✅ 13+ provenance references                      |
+| Templated research report generation               | ✅ 13+ provenance references                      |
 | Markdown report viewer                             | ✅                                                |
 | Prometheus-style `/metrics` endpoint               | ✅                                                |
 | Mock inference provider (zero-dependency dev mode) | ✅                                                |
@@ -194,7 +194,6 @@ Required packages: `transformers`, `datasets`, `evaluate`, `scikit-learn`, `roug
 ```bash
 # From repo root, with venv active
 python -m pytest -q
-# Expected: 41 passed
 ```
 
 ### Static analysis
@@ -211,7 +210,6 @@ python -m vulture apps services --min-confidence 80
 ```bash
 cd apps/web
 npm run test
-# Expected: 31 passed
 ```
 
 ### E2E (Playwright)
